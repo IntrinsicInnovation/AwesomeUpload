@@ -38,13 +38,21 @@ namespace AwesomeUpload.Controllers
                 FileExtension = ".jpg",
                 FileSize = 140191,
                 Image = System.IO.File.ReadAllBytes(path)
-            
-        };
+            };
             return View(uploadViewModel);
         }
 
 
-        public async Task<ActionResult> SaveAttachment(IFormFile File)  //Dummy function for async mode.
+        [HttpPost]
+        public ActionResult Index(UploadViewModel viewModel)
+        {
+
+            var a = viewModel;
+            return Json(new { respMSG = "Saved" });
+        }
+
+
+            public async Task<ActionResult> SaveAttachment(IFormFile File)  //Dummy function for async mode.
         {
             return Content("");
         }

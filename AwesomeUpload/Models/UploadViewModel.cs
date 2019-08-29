@@ -14,7 +14,7 @@ namespace AwesomeUpload.Models
         public string LastName { get; set; }
      
         public string UserName { get; set; }
-      
+        public IEnumerable<IFormFile> files { get; set; }
         public IFormFile File { get; set; }
         public byte[] Image { get; set; }
         public string Image64 { get { return Image != null ? Convert.ToBase64String(Image) : null; } }

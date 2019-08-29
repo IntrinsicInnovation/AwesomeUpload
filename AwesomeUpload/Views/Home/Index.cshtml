@@ -83,42 +83,75 @@
 </script>
 
 
-<input asp-for="PerformDelete" type="hidden" />
-<input asp-for="Image64" type="hidden" />
-<input asp-for="FileSize" type="hidden" />
 
-<div class="text-center">
-    <p>Kendo Upload control demo that also displays previously uploaded files from your own view model!  See <a href="htts://kolaberate.com/articles"> kolaberate.com/articles/</a> for more articles and samples.</p>
-</div>
+<form asp-action="Index">
 
+    <input asp-for="PerformDelete" type="hidden" />
+    <input asp-for="Image64" type="hidden" />
+    <input asp-for="FileSize" type="hidden" />
 
-<div class="dialog-content container-fluid">
-
-
-    <div class="row">
-        <div class="small-3 large-3 columns control-label" style="padding-right: 5px">
-            <label asp-for="File" class="middle">Image</label>
-        </div>
-        <div class="small-9 large-9 columns" style="margin-bottom: 16px">
-            @(Html.Kendo().Upload()
-                .Name("File")
-                .Async(a => a
-                    .Save("SaveAttachment", "Home")
-                    .Remove("RemoveAttachment", "Home")
-                    .AutoUpload(false))
-                .Files(
-                    files =>
-                    {
-                        if (Model.Image != null)
-                        {
-                            files.Add().Name(Model.FileName).Extension(Model.FileExtension).Size((long)Model.FileSize);
-                        }
-                    }
-                )
-                .Events(e => e.Select("onSelect").Remove("onRemove"))
-                .Multiple(false)
-            )
-        </div>
+    <div class="text-center">
+        <p>Kendo Upload control demo that also displays previously uploaded files from your own view model!  See <a href="htts://kolaberate.com/articles"> kolaberate.com/articles/</a> for more articles and samples.</p>
     </div>
 
-</div>
+
+    <div class="dialog-content container-fluid">
+
+        <div class="row">
+            <div class="col-2">
+                <label asp-for="UserName" class="float-right">User Name: </label>
+            </div>
+            <div class="col-2">
+                <input asp-for="UserName" type="text" required>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-2">
+                <label asp-for="FirstName" class="float-right">First Name: </label>
+
+            </div>
+            <div class="col-2">
+                <input asp-for="FirstName" type="text">
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-2">
+                <label asp-for="File" class="float-right">Image: </label>
+            </div>
+            <div class="col-2">
+                @(Html.Kendo().Upload()
+                    .Name("File")
+                    .Async(a => a
+                        .Save("SaveAttachment", "Home")
+                        .Remove("RemoveAttachment", "Home")
+                        .AutoUpload(false))
+                    .Files(
+                        files =>
+                        {
+                            if (Model.Image != null)
+                            {
+                                files.Add().Name(Model.FileName).Extension(Model.FileExtension).Size((long)Model.FileSize);
+                            }
+                        }
+                    )
+                    .Events(e => e.Select("onSelect").Remove("onRemove"))
+                    .Multiple(false)
+                )
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-4 ">
+                <input type="submit" value="Save" class="btn btn-primary float-right" />
+            </div>
+        </div>
+
+
+    </div>
+
+</form>
