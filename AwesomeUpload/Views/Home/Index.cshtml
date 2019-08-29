@@ -1,0 +1,124 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@using Kendo.Mvc
+@using AwesomeUpload.Models
+
+
+@{
+    ViewData["Title"] = "Awesome Upload Demo Page";
+}
+
+
+@model UploadViewModel
+
+<style>
+
+    .image-preview {
+        position: relative;
+        vertical-align: top;
+        height: 45px;
+    }
+
+    button.k-button.k-clear-selected, button.k-button.k-upload-selected {
+        display: none;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        setTimeout(function () {
+            loadImages();
+        }, 1000);
+    });
+
+    function loadImages() {
+
+
+
+
+        var image64 = $("#Image64").val();
+        var upload = $("#File").data("kendoUpload"),
+            wrapper = upload.wrapper;
+        setupPreview(image64, wrapper);
+    }
+
+    function setupPreview(file, wrapper) {
+        var preview = $("<img class='image-preview'>").attr("src", "data:image/jpg;base64," + file);
+        wrapper.find(".k-file .k-file-extension-wrapper")
+            .replaceWith(preview);
+    }
+
+    function onSelect(e) {
+        var fileInfos = e.files;
+        var wrapper = this.wrapper;
+
+        $("#PerformDelete").val("false");
+
+        fileInfos.forEach(function (fileInfo) {
+            setTimeout(function () {
+                addPreview(fileInfo, wrapper);
+            });
+        });
+    }
+
+
+    function onRemove(e) {
+        $("#PerformDelete").val("true");
+    }
+
+    function addPreview(file, wrapper) {
+        var raw = file.rawFile;
+        var reader = new FileReader();
+
+        if (raw) {
+            reader.onloadend = function () {
+                var result = this.result;
+                var preview = $("<img class='image-preview'>").attr("src", result);
+                wrapper.find(".k-file[data-uid='" + file.uid + "'] .k-file-extension-wrapper")
+                    .replaceWith(preview);
+            };
+            reader.readAsDataURL(raw);
+        }
+    }
+
+</script>
+
+
+<input asp-for="PerformDelete" type="hidden" />
+<input asp-for="Image64" type="hidden" />
+<input asp-for="FileSize" type="hidden" />
+
+<div class="text-center">
+    <p>Kendo Upload control demo that also displays previously uploaded files from your own view model!  See <a href="htts://kolaberate.com/articles"> kolaberate.com/articles/</a> for more articles and samples.</p>
+</div>
+
+
+<div class="dialog-content container-fluid">
+
+
+    <div class="row">
+        <div class="small-3 large-3 columns control-label" style="padding-right: 5px">
+            <label asp-for="File" class="middle">Image</label>
+        </div>
+        <div class="small-9 large-9 columns" style="margin-bottom: 16px">
+            @(Html.Kendo().Upload()
+                .Name("File")
+                .Async(a => a
+                    .Save("SaveAttachment", "Home")
+                    .Remove("RemoveAttachment", "Home")
+                    .AutoUpload(false))
+                .Files(
+                    files =>
+                    {
+                        if (Model.Image != null)
+                        {
+                            files.Add().Name(Model.FileName).Extension(Model.FileExtension).Size((long)Model.FileSize);
+                        }
+                    }
+                )
+                .Events(e => e.Select("onSelect").Remove("onRemove"))
+                .Multiple(false)
+            )
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,10 @@
+*.user
+**/bin
+**/obj
+.vs
+**/bower_components
+**/node_modules
+logs
+**/appsettings.local.json
+/.vs/AwesomeUpload/v16/Server/sqlite3/
+
