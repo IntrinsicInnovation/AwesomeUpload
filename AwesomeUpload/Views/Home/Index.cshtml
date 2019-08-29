@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.Rendering
-@using Kendo.Mvc
-@using AwesomeUpload.Models
+﻿@using AwesomeUpload.Models
 
 
 @{
@@ -31,10 +29,6 @@
     });
 
     function loadImages() {
-
-
-
-
         var image64 = $("#Image64").val();
         var upload = $("#File").data("kendoUpload"),
             wrapper = upload.wrapper;
@@ -80,11 +74,13 @@
         }
     }
 
+
+
 </script>
 
 
 
-<form asp-action="Index">
+<form id="cbaUpdateForm" asp-action="Index" asp-controller="Home"  data-abide novalidate enctype="multipart/form-data">
 
     <input asp-for="PerformDelete" type="hidden" />
     <input asp-for="Image64" type="hidden" />
@@ -96,6 +92,7 @@
 
 
     <div class="dialog-content container-fluid">
+
 
         <div class="row">
             <div class="col-2">
@@ -117,7 +114,14 @@
             </div>
         </div>
 
-
+        <div class="row">
+            <div class="col-2">
+                <label asp-for="LastName" class="float-right">Last Name: </label>
+            </div>
+            <div class="col-2">
+                <input asp-for="LastName" type="text">
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-2">
@@ -147,10 +151,18 @@
         <br />
         <div class="row">
             <div class="col-4 ">
-                <input type="submit" value="Save" class="btn btn-primary float-right" />
+                <input type="submit" id="btnSave" value="Save" class="btn btn-primary float-right" />
             </div>
         </div>
-
+        <br />
+        @if (!String.IsNullOrEmpty(Model.SuccessMessage))
+        {
+            <div class="row">
+                <div class="col-4">
+                    <label asp-for="SuccessMessage" class="float-right">@Model.SuccessMessage</label>
+                </div>
+            </div>
+        }
 
     </div>
 

@@ -23,6 +23,7 @@ namespace AwesomeUpload.Models
         public string FileExtension { get; set; }
         public long FileSize { get; set; }
         public bool PerformDelete { get; set; }
+        public string SuccessMessage { get; set; }
        
     }
 
