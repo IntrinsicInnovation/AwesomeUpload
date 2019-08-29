@@ -25,7 +25,7 @@
     $(document).ready(function () {
         setTimeout(function () {
             loadImages();
-        }, 1000);
+        });
     });
 
     function loadImages() {
@@ -98,8 +98,8 @@
             <div class="col-2">
                 <label asp-for="UserName" class="float-right">User Name: </label>
             </div>
-            <div class="col-2">
-                <input asp-for="UserName" type="text" required>
+            <div class="col-4">
+                <input asp-for="UserName" type="text" class="w-100">
             </div>
         </div>
 
@@ -109,8 +109,8 @@
                 <label asp-for="FirstName" class="float-right">First Name: </label>
 
             </div>
-            <div class="col-2">
-                <input asp-for="FirstName" type="text">
+            <div class="col-4">
+                <input asp-for="FirstName" type="text" class="w-100">
             </div>
         </div>
 
@@ -118,8 +118,8 @@
             <div class="col-2">
                 <label asp-for="LastName" class="float-right">Last Name: </label>
             </div>
-            <div class="col-2">
-                <input asp-for="LastName" type="text">
+            <div class="col-4">
+                <input asp-for="LastName" type="text" class="w-100">
             </div>
         </div>
 
@@ -127,30 +127,30 @@
             <div class="col-2">
                 <label asp-for="File" class="float-right">Image: </label>
             </div>
-            <div class="col-2">
-                @(Html.Kendo().Upload()
-                    .Name("File")
-                    .Async(a => a
-                        .Save("SaveAttachment", "Home")
-                        .Remove("RemoveAttachment", "Home")
-                        .AutoUpload(false))
-                    .Files(
-                        files =>
-                        {
-                            if (Model.Image != null)
-                            {
-                                files.Add().Name(Model.FileName).Extension(Model.FileExtension).Size((long)Model.FileSize);
-                            }
-                        }
-                    )
-                    .Events(e => e.Select("onSelect").Remove("onRemove"))
-                    .Multiple(false)
-                )
-            </div>
+            <div class="col-4">
+@(Html.Kendo().Upload()
+    .Name("File")
+    .Async(a => a
+        .Save("SaveAttachment", "Home")
+        .Remove("RemoveAttachment", "Home")
+        .AutoUpload(false))
+    .Files(
+        files =>
+        {
+            if (Model.Image != null)
+            {
+                files.Add().Name(Model.FileName).Extension(Model.FileExtension).Size((long)Model.FileSize);
+            }
+        }
+    )
+    .Events(e => e.Select("onSelect").Remove("onRemove"))
+    .Multiple(false)
+)
+</div>
         </div>
         <br />
         <div class="row">
-            <div class="col-4 ">
+            <div class="col-6">
                 <input type="submit" id="btnSave" value="Save" class="btn btn-primary float-right" />
             </div>
         </div>
@@ -158,7 +158,7 @@
         @if (!String.IsNullOrEmpty(Model.SuccessMessage))
         {
             <div class="row">
-                <div class="col-4">
+                <div class="col-6">
                     <label asp-for="SuccessMessage" class="float-right">@Model.SuccessMessage</label>
                 </div>
             </div>
